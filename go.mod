@@ -1,4 +1,4 @@
-module github.com/mirkochipdotcom/gorubrica
+module github.com/mirkochipdotcom/ldavsync
 
 go 1.22
 

@@ -1,10 +1,10 @@
-# GoRubrica - Corporate Directory with CardDAV
+# LdavSync - Corporate Directory with CardDAV
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/mirkochipdotcom/gorubrica)](https://go.dev/)
-[![License](https://img.shields.io/github/license/mirkochipdotcom/gorubrica)](LICENSE)
-[![Docker](https://img.shields.io/badge/docker-ready-blue)](https://github.com/mirkochipdotcom/gorubrica/pkgs/container/gorubrica)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/mirkochipdotcom/ldavsync)](https://go.dev/)
+[![License](https://img.shields.io/github/license/mirkochipdotcom/ldavsync)](LICENSE)
+[![Docker](https://img.shields.io/badge/docker-ready-blue)](https://github.com/mirkochipdotcom/ldavsync/pkgs/container/ldavsync)
 
-> **GoRubrica** is a corporate directory application with automatic LDAP synchronization, centralized group phone numbers, and CardDAV protocol support for Thunderbird and external clients.
+> **LdavSync** is a corporate directory application with automatic LDAP synchronization, centralized group phone numbers, and CardDAV protocol support for Thunderbird and external clients.
 
 [🇮🇹 Versione Italiana](README.it.md)
 
@@ -25,8 +25,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/mirkochipdotcom/gorubrica.git
-cd gorubrica
+git clone https://github.com/mirkochipdotcom/ldavsync.git
+cd ldavsync
 
 # Copy and configure environment
 cp .env.example .env
@@ -45,15 +45,15 @@ Access the application at [http://localhost:8080](http://localhost:8080)
 
 ```bash
 # Build image
-podman build -t gorubrica:latest .
+podman build -t ldavsync:latest .
 
 # Run container
 podman run -d \
-  --name gorubrica \
-  -p 8080:8080 \
-  -v ./data:/data:Z \
-  --env-file .env \
-  gorubrica:latest
+   --name ldavsync \
+   -p 8080:8080 \
+   -v ./data:/data:Z \
+   --env-file .env \
+   ldavsync:latest
 ```
 
 ## Configuration
@@ -76,7 +76,7 @@ See [`.env.example`](.env.example) for complete configuration.
 ## Architecture
 
 ```
-gorubrica/
+ldavsync/
 ├── cmd/server/           # Main application
 │   └── main.go
 ├── internal/             # Internal packages
@@ -150,7 +150,7 @@ For Android, use a CardDAV-compatible app like **DAVx⁵**:
 
 ### Local Development
 
-```bash
+```
 # Install dependencies
 go mod download
 
@@ -160,7 +160,7 @@ cp .env.example .env
 go run cmd/server/main.go
 
 # Build
-go build -o gorubrica cmd/server/main.go
+go build -o ldavsync cmd/server/main.go
 
 # Run tests
 go test ./...
@@ -170,10 +170,10 @@ go test ./...
 
 ```bash
 # Build with version tag
-docker build --build-arg VERSION=0.1.0 -t gorubrica:0.1.0 .
+docker build --build-arg VERSION=0.1.0 -t ldavsync:0.1.0 .
 
 # Run
-docker run -p 8080:8080 -v $(pwd)/data:/data --env-file .env gorubrica:0.1.0
+docker run -p 8080:8080 -v $(pwd)/data:/data --env-file .env ldavsync:0.1.0
 ```
 
 ## API Endpoints
@@ -209,7 +209,7 @@ docker run -p 8080:8080 -v $(pwd)/data:/data --env-file .env gorubrica:0.1.0
 
 Check logs:
 ```bash
-docker compose logs -f gorubrica
+docker compose logs -f ldavsync
 ```
 
 Look for `[SYNC]` entries. Common issues:
@@ -256,7 +256,7 @@ Built with:
 ## Support
 
 For issues and questions:
-- GitHub Issues: [github.com/mirkochipdotcom/gorubrica/issues](https://github.com/mirkochipdotcom/gorubrica/issues)
+- GitHub Issues: [github.com/mirkochipdotcom/ldavsync/issues](https://github.com/mirkochipdotcom/ldavsync/issues)
 - Documentation: See [docs/](docs/) folder
 
 ---

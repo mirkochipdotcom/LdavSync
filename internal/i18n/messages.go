@@ -8,7 +8,7 @@ import (
 
 var messages = map[string]map[string]string{
 	"en": {
-		"app_title":             "GoRubrica - Corporate Directory",
+		"app_title":             "LdavSync - Corporate Directory",
 		"search_placeholder":    "Search contacts...",
 		"login":                 "Login",
 		"logout":                "Logout",
@@ -40,7 +40,7 @@ var messages = map[string]map[string]string{
 		"no_results":            "No results found",
 	},
 	"it": {
-		"app_title":             "GoRubrica - Rubrica Aziendale",
+		"app_title":             "LdavSync - Rubrica Aziendale",
 		"search_placeholder":    "Cerca contatti...",
 		"login":                 "Accedi",
 		"logout":                "Esci",
