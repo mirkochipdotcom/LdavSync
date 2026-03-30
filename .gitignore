@@ -1,0 +1,36 @@
+# Binaries
+gorubrica
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of go build/cover
+*.out
+
+# Go workspace file
+go.work
+
+# Environment variables
+.env
+
+# Data directory
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

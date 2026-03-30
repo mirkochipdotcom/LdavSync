@@ -1,0 +1,67 @@
+{{if .Results}}
+<div class="contacts-table-wrap">
+    <table class="contacts-table">
+        <thead>
+            <tr>
+                <th>Contatto</th>
+                <th>Ufficio / Descrizione</th>
+                <th>Recapiti</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Results}}
+            <tr>
+                <td data-label="Contatto">
+                    <a href="/contacts/{{.Contact.UID}}" class="person-link">
+                        <span class="table-avatar">{{substr .Contact.DisplayName 0 1}}</span>
+                        <span class="person-meta">
+                            <span class="person-name">{{.Contact.DisplayName}}</span>
+                            {{if .Contact.Title}}
+                            <span class="person-title">{{.Contact.Title}}</span>
+                            {{end}}
+                        </span>
+                    </a>
+                </td>
+                <td data-label="Ufficio / Descrizione">
+                    {{if .Contact.Department}}
+                    <div class="org-main">{{.Contact.Department}}</div>
+                    {{else}}
+                    <div class="org-main muted">-</div>
+                    {{end}}
+                    {{if .Contact.Description}}
+                    <div class="org-sub">{{.Contact.Description}}</div>
+                    {{end}}
+                </td>
+                <td data-label="Recapiti">
+                    <div class="contact-lines">
+                        {{if .Contact.Email}}
+                        <a class="table-link" href="mailto:{{.Contact.Email}}">{{.Contact.Email}}</a>
+                        {{end}}
+                        {{if .Contact.PrimaryNumber}}
+                        <a class="table-link" href="tel:{{.Contact.PrimaryNumber}}">{{.Contact.PrimaryNumber}}</a>
+                        {{else if .Contact.LDAPExt}}
+                        <span>Int. {{.Contact.LDAPExt}}</span>
+                        {{end}}
+                        {{if and (not .Contact.Email) (not .Contact.PrimaryNumber) (not .Contact.LDAPExt)}}
+                        <span class="muted">-</span>
+                        {{end}}
+                    </div>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Update sidebar counters
+    const total = {{len .Results}};
+    const totalEl = document.getElementById('total-count');
+    if (totalEl) totalEl.textContent = total;
+</script>
+{{else}}
+<div class="empty-state">
+    <div class="empty-state-icon">🔍</div>
+    <div class="empty-state-text">{{index .Messages "no_results"}}</div>
+</div>
+{{end}}
