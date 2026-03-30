@@ -240,7 +240,7 @@ I contributi sono benvenuti! Per favore:
 
 ## Licenza
 
-Licenza MIT - vedi file [LICENSE](LICENSE) per dettagli
+AGPL v3 - vedi il file [LICENSE](LICENSE) per i dettagli
 
 ## Crediti
 
