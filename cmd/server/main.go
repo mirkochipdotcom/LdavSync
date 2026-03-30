@@ -12,12 +12,12 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
-	"github.com/mirkochipdotcom/gorubrica/internal/carddav"
-	"github.com/mirkochipdotcom/gorubrica/internal/config"
-	"github.com/mirkochipdotcom/gorubrica/internal/database"
-	"github.com/mirkochipdotcom/gorubrica/internal/i18n"
-	"github.com/mirkochipdotcom/gorubrica/internal/ldap"
-	"github.com/mirkochipdotcom/gorubrica/internal/phonebook"
+	"github.com/mirkochipdotcom/ldavsync/internal/carddav"
+	"github.com/mirkochipdotcom/ldavsync/internal/config"
+	"github.com/mirkochipdotcom/ldavsync/internal/database"
+	"github.com/mirkochipdotcom/ldavsync/internal/i18n"
+	"github.com/mirkochipdotcom/ldavsync/internal/ldap"
+	"github.com/mirkochipdotcom/ldavsync/internal/phonebook"
 )
 
 var (
@@ -31,7 +31,7 @@ var (
 )
 
 func main() {
-	log.Printf("[MAIN] Starting GoRubrica %s", AppVersion)
+	log.Printf("[MAIN] Starting LdavSync %s", AppVersion)
 
 	// Load configuration
 	cfg = config.Load()
@@ -154,7 +154,7 @@ func ldapSyncWorker() {
 
 func requireAuth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session, _ := store.Get(r, "gorubrica-session")
+		session, _ := store.Get(r, "ldavsync-session")
 		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 			http.Redirect(w, r, "/login", http.StatusFound)
 			return
@@ -165,7 +165,7 @@ func requireAuth(next http.Handler) http.Handler {
 
 func requireAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session, _ := store.Get(r, "gorubrica-session")
+		session, _ := store.Get(r, "ldavsync-session")
 		if admin, ok := session.Values["admin"].(bool); !ok || !admin {
 			http.Error(w, "Forbidden", http.StatusForbidden)
 			return
@@ -366,7 +366,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session, _ := store.Get(r, "gorubrica-session")
+	session, _ := store.Get(r, "ldavsync-session")
 	session.Values["authenticated"] = true
 	session.Values["admin"] = isAdmin
 	session.Values["username"] = username
@@ -376,7 +376,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleLogout(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "gorubrica-session")
+	session, _ := store.Get(r, "ldavsync-session")
 	session.Values["authenticated"] = false
 	session.Values["admin"] = false
 	session.Save(r, w)
@@ -387,7 +387,7 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 
 func handleAdminDashboard(w http.ResponseWriter, r *http.Request) {
 	locale := i18n.ResolveLocale(r)
-	session, _ := store.Get(r, "gorubrica-session")
+	session, _ := store.Get(r, "ldavsync-session")
 
 	data := map[string]interface{}{
 		"Messages": i18n.GetMessages(locale),

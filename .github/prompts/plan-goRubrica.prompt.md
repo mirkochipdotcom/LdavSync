@@ -1,4 +1,4 @@
-## Piano: GoRubrica — CardDAV Directory Aziendale
+## Piano: LdavSync — CardDAV Directory Aziendale
 
 Rubrica aziendale con sync LDAP automatica, gestione numeri di gruppo centralino, e protocollo CardDAV per integrazione Thunderbird/client esterni. Architettura identica a GoPulley (Go 1.22+, HTMX, SQLite, Docker single-container).
 
@@ -18,7 +18,7 @@ Rubrica aziendale con sync LDAP automatica, gestione numeri di gruppo centralino
    - Indici su `uid`, `last_sync`, `group_id`
 4. Goroutine background in `main.go` per sync LDAP ogni 1 ora: cron interno con `time.Ticker` *(parallelo al cleanup job di GoPulley)*
 5. Config via `.env`: `LDAP_HOST`, `LDAP_BASE_DN`, `LDAP_USER_DN_TEMPLATE`, `LDAP_BIND_DN`, `LDAP_BIND_PASSWORD`, `SYNC_INTERVAL_HOURS=1`, `PRIMARY_NUMBER_PREFIX_TEMPLATE` (es. `0854321{ext}`)
-6. Dockerfile multi-stage + `compose.yml` *(copiare da GoPulley, cambiare binary name in `gorubrica`)*
+6. Dockerfile multi-stage + `compose.yml` *(copiare da GoPulley, cambiare binary name in `ldavsync`)*
 
 ### Fase 2 — Pannello Admin (settimana 2-3) *(dipende da Fase 1)*
 7. Login admin con LDAP group check: middleware `requireAdmin` basato su `ADMIN_USERS` (lista semicolon-separated) o `LDAP_ADMIN_GROUP` *(riusare pattern GoPulley `requireAuth` e `requireAdmin`)*
@@ -63,7 +63,7 @@ Rubrica aziendale con sync LDAP automatica, gestione numeri di gruppo centralino
 26. Health check endpoint: `GET /health` → JSON `{"status":"ok","ldap":"connected","db":"ok","last_sync":"2026-03-10T..."}`
 27. README.md e README.it.md: architettura, quick start, config, esempi .env *(template da GoPulley)*
 28. `.env.example` con tutte le variabili commentate
-29. CI/CD GitHub Actions: workflow build + push GHCR `ghcr.io/mirkochipdotcom/gorubrica:latest` *(copiare da GoPulley workflow)*
+29. CI/CD GitHub Actions: workflow build + push GHCR `ghcr.io/mirkochipdotcom/ldavsync:latest` *(copiare da GoPulley workflow)*
 30. Versioning: file `VERSION`, injection via ldflags `-X main.AppVersion=...`
 
 ---
@@ -102,7 +102,7 @@ Rubrica aziendale con sync LDAP automatica, gestione numeri di gruppo centralino
 
 **Verification**
 
-1. **Sync LDAP**: `docker logs gorubrica` mostra `[SYNC] synced 150 contacts from LDAP` ogni 1h
+1. **Sync LDAP**: `docker logs ldavsync` mostra `[SYNC] synced 150 contacts from LDAP` ogni 1h
 2. **Admin Panel**: login con credenziali LDAP admin, creare gruppo "459 - Ufficio Protocollo", associare 3 contatti, verificare salvataggio DB
 3. **Ricerca pubblica**: aprire `http://localhost:8080`, cercare "mario", vedere risultati filtrati, cliccare dettaglio, verificare badge gruppi
 4. **CardDAV Thunderbird**:
@@ -113,7 +113,7 @@ Rubrica aziendale con sync LDAP automatica, gestione numeri di gruppo centralino
    - Cercare contatto con numero di gruppo, verificare campo `TEL` multiplo
 5. **Health check**: `curl http://localhost:8080/health` → JSON con status OK + timestamp last_sync
 6. **i18n**: cambiare browser locale it-IT vs en-US, verificare UI tradotta (navbar, button, placeholder)
-7. **Container build**: `podman build -t gorubrica .` → success, size <50MB
+7. **Container build**: `podman build -t ldavsync .` → success, size <50MB
 8. **Compose startup**: `podman compose up -d` → container running, accessible su :8080
 
 ---
@@ -124,7 +124,7 @@ Rubrica aziendale con sync LDAP automatica, gestione numeri di gruppo centralino
 - **Prefisso numero primario**: configurabile come template `0854321{ext}` via `.env` + override in pannello admin
 - **Admin auth**: lista esplicita `ADMIN_USERS` semicolon-separated (flessibile, no dipendenza gruppo LDAP)
 - **Interfaccia pubblica**: nessuna autenticazione per rubrica web (come da richiesta), solo CardDAV richiede Basic Auth
-- **Numeri di gruppo**: solo informativo/rubrica, GoRubrica non comunica con centralino (documentazione chiara in README)
+- **Numeri di gruppo**: solo informativo/rubrica, LdavSync non comunica con centralino (documentazione chiara in README)
 - **CardDAV version**: vCard 3.0 per compatibilità Thunderbird legacy, supportare 4.0 in future se richiesto
 - **Database overrides**: campo `manual_override` boolean in `contacts` → sync LDAP skip se true
 

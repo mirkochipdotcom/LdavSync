@@ -1,7 +1,7 @@
 package phonebook
 
 import (
-	"github.com/mirkochipdotcom/gorubrica/internal/database"
+	"github.com/mirkochipdotcom/ldavsync/internal/database"
 )
 
 // ContactWithGroups represents a contact with its associated groups

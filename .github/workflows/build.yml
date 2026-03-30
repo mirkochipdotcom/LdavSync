@@ -43,7 +43,7 @@ jobs:
         run: |
           CGO_ENABLED=1 go build -v \
             -ldflags="-X main.AppVersion=${{ github.ref_name }}" \
-            -o gorubrica \
+            -o ldavsync \
             ./cmd/server
 
       - name: Log in to Container Registry

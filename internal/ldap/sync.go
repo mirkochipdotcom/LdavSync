@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/go-ldap/ldap/v3"
-	"github.com/mirkochipdotcom/gorubrica/internal/config"
-	"github.com/mirkochipdotcom/gorubrica/internal/database"
+	"github.com/mirkochipdotcom/ldavsync/internal/config"
+	"github.com/mirkochipdotcom/ldavsync/internal/database"
 )
 
 // SyncContacts reads contacts from LDAP and updates the database

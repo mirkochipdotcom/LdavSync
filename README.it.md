@@ -1,10 +1,10 @@
-# GoRubrica - Rubrica Aziendale con CardDAV
+# LdavSync - Rubrica Aziendale con CardDAV
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/mirkochipdotcom/gorubrica)](https://go.dev/)
-[![Licenza](https://img.shields.io/github/license/mirkochipdotcom/gorubrica)](LICENSE)
-[![Docker](https://img.shields.io/badge/docker-ready-blue)](https://github.com/mirkochipdotcom/gorubrica/pkgs/container/gorubrica)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/mirkochipdotcom/ldavsync)](https://go.dev/)
+[![Licenza](https://img.shields.io/github/license/mirkochipdotcom/ldavsync)](LICENSE)
+[![Docker](https://img.shields.io/badge/docker-ready-blue)](https://github.com/mirkochipdotcom/ldavsync/pkgs/container/ldavsync)
 
-> **GoRubrica** è un'applicazione per la rubrica aziendale con sincronizzazione automatica LDAP, gestione centralizzata dei numeri di gruppo del centralino e supporto del protocollo CardDAV per Thunderbird e client esterni.
+> **LdavSync** è un'applicazione per la rubrica aziendale con sincronizzazione automatica LDAP, gestione centralizzata dei numeri di gruppo del centralino e supporto del protocollo CardDAV per Thunderbird e client esterni.
 
 [🇬🇧 English Version](README.md)
 
@@ -25,8 +25,8 @@
 
 ```bash
 # Clona il repository
-git clone https://github.com/mirkochipdotcom/gorubrica.git
-cd gorubrica
+git clone https://github.com/mirkochipdotcom/ldavsync.git
+cd ldavsync
 
 # Copia e configura l'ambiente
 cp .env.example .env
@@ -36,24 +36,22 @@ nano .env  # Modifica le impostazioni LDAP
 docker compose up -d
 
 # Controlla i log
-docker compose logs -f
+docker compose logs -f ldavsync
 ```
-
-Accedi all'applicazione su [http://localhost:8080](http://localhost:8080)
 
 ### Con Podman
 
 ```bash
-# Costruisci l'immagine
-podman build -t gorubrica:latest .
+# Build image
+podman build -t ldavsync:latest .
 
-# Esegui il container
+# Run container
 podman run -d \
-  --name gorubrica \
-  -p 8080:8080 \
-  -v ./data:/data:Z \
-  --env-file .env \
-  gorubrica:latest
+   --name ldavsync \
+   -p 8080:8080 \
+   -v ./data:/data:Z \
+   --env-file .env \
+   ldavsync:latest
 ```
 
 ## Configurazione
@@ -76,7 +74,7 @@ Vedi [`.env.example`](.env.example) per la configurazione completa.
 ## Architettura
 
 ```
-gorubrica/
+ldavsync/
 ├── cmd/server/           # Applicazione principale
 │   └── main.go
 ├── internal/             # Package interni
@@ -91,7 +89,7 @@ gorubrica/
 │   └── static/          # CSS, JS
 ├── Dockerfile           # Build multi-stage
 └── compose.yml          # Docker Compose
-```
+```GoAddress
 
 ## Utilizzo
 
@@ -160,7 +158,7 @@ cp .env.example .env
 go run cmd/server/main.go
 
 # Build
-go build -o gorubrica cmd/server/main.go
+go build -o ldavsync cmd/server/main.go
 
 # Esegui test
 go test ./...
@@ -170,10 +168,10 @@ go test ./...
 
 ```bash
 # Build con tag versione
-docker build --build-arg VERSION=0.1.0 -t gorubrica:0.1.0 .
+docker build --build-arg VERSION=0.1.0 -t ldavsync:0.1.0 .
 
 # Esegui
-docker run -p 8080:8080 -v $(pwd)/data:/data --env-file .env gorubrica:0.1.0
+docker run -p 8080:8080 -v $(pwd)/data:/data --env-file .env ldavsync:0.1.0
 ```
 
 ## Endpoint API
@@ -209,7 +207,7 @@ docker run -p 8080:8080 -v $(pwd)/data:/data --env-file .env gorubrica:0.1.0
 
 Controlla i log:
 ```bash
-docker compose logs -f gorubrica
+docker compose logs -f ldavsync
 ```
 
 Cerca voci `[SYNC]`. Problemi comuni:
@@ -256,7 +254,7 @@ Costruito con:
 ## Supporto
 
 Per problemi e domande:
-- GitHub Issues: [github.com/mirkochipdotcom/gorubrica/issues](https://github.com/mirkochipdotcom/gorubrica/issues)
+- GitHub Issues: [github.com/mirkochipdotcom/ldavsync/issues](https://github.com/mirkochipdotcom/ldavsync/issues)
 - Documentazione: Vedi cartella [docs/](docs/)
 
 ---
